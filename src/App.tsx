@@ -1,16 +1,19 @@
-import { use, useState } from 'react';
+import { useState } from 'react'
+import { Routes, Route, Link } from 'react-router-dom'
+import PlayerPage from './pages/PlayerPage'
+
 
 type Player = {
-  id: number;
-  firstName: string;
-  lastName: string;
+  id: number
+  firstName: string
+  lastName: string
 }
 
 function App() {
 
   const [healthMsg, setHealthMsg] = useState<string>('')
 
-  const [search, setSearch] = useState<string>('a')
+  const [search, setSearch] = useState<string>('')
   const [players, setPlayers] = useState<Player[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
@@ -41,39 +44,50 @@ function App() {
   }
 
   return (
-    <div style={{ padding: 16 }}>
-      <h1>NBAZone</h1>
-      <p>Welcome to NBAZone, your ultimate destination for all things NBA!</p> 
+    <Routes>
+      <Route 
+        path="/"
+        element={
+          <div style={{ padding: 16 }}>
+            <h1>NBAZone</h1>
+            <p>Welcome to NBAZone, your ultimate destination for all things NBA!</p> 
 
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 }}>
-        <button onClick={testBackend}>Test backend</button>  
-        {healthMsg && <span>Backend says: {healthMsg}</span>} 
-      </div>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 }}>
+              <button onClick={testBackend}>Test backend</button>  
+              {healthMsg && <span>Backend says: {healthMsg}</span>} 
+            </div>
 
-      <h2>Players</h2>
+            <h2>Players</h2>
 
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-        <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search players (e.g. LeBron)"
-        />
-        <button onClick={searchPlayers} disabled={loading}>
-          {loading ? 'Searching...' : 'Search'}
-        </button>
-      </div>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search NBA Players"
+              />
+              <button onClick={searchPlayers} disabled={loading}>
+                {loading ? 'Searching...' : 'Search'}
+              </button>
+            </div>
 
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 
-      <ul style={{ marginTop: 12 }}>
-        {players.map((p) => (
-          <li key={p.id}>
-            {p.firstName} {p.lastName}
-          </li>
-        ))}
-      </ul>
-      
-    </div>
+            <ul style={{ marginTop: 12 }}>
+              {players.map((p) => (
+                <li key={p.id}>
+                  <Link to={`/players/${p.id}`}>
+                    {p.firstName} {p.lastName}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            
+          </div>
+        }
+      />
+      <Route path="/players/:id" element={<PlayerPage />} />
+    </Routes>
+    
   )
 }
 
