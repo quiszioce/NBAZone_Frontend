@@ -17,6 +17,22 @@ type Player = {
     draftNumber: number | null   
 }
 
+type SeasonSummary = {
+    playerId: number
+    season: number
+    gamesPlayed: number
+    mpg: number
+    ppg: number
+    rpg: number
+    apg: number
+    spg: number
+    bpg: number
+    tpg: number
+    fgPct: number
+    fg3Pct: number
+    ftPct: number
+}
+
 function formatHeight(inches: number | null | undefined) {
   if (inches == null) return 'N/A'
 
@@ -38,6 +54,10 @@ function PlayerPage() {
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string>('')
 
+    const [seasons, setSeasons] = useState<SeasonSummary[]>([])
+    const [seasonsLoading, setSeasonsLoading] = useState<boolean>(true)
+    const [seasonsError, setSeasonsError] = useState<string>('')
+
     useEffect(() => {
         async function load() {
             if (!id) {
@@ -48,6 +68,8 @@ function PlayerPage() {
 
             setLoading(true)
             setError('')
+            setSeasonsLoading(true)
+            setSeasonsError('')
 
             try {
                 const res = await fetch(`/api/players/${id}`)
@@ -56,11 +78,21 @@ function PlayerPage() {
                 }
                 const data = (await res.json()) as Player
                 setPlayer(data)
+
+                const seasonsRes = await fetch(`/api/players/${id}/seasons`)
+                if (!seasonsRes.ok) {
+                    throw new Error(`Error fetching seasons: ${seasonsRes.status} ${seasonsRes.statusText}`)
+                }
+                const seasonsData = (await seasonsRes.json()) as SeasonSummary[]
+                setSeasons(seasonsData)
             } catch (e) {
                 setError(e instanceof Error ? e.message : 'Unknown error')
                 setPlayer(null)
+                setSeasonsError(e instanceof Error ? e.message : 'Unknown error')
+                setSeasons([])
             } finally {
                 setLoading(false)
+                setSeasonsLoading(false)
             }      
         }
 
@@ -93,6 +125,55 @@ function PlayerPage() {
                             ? `Drafted in ${player.draftYear}, Round ${display(player.draftRound)}, Pick ${display(player.draftNumber)}`
                             : 'N/A'}
                     </p>
+
+                    <h3>Season Stats</h3>
+
+                    {seasonsLoading && <p>Loading seasons...</p>}
+                    {seasonsError && <p style={{ color: 'red' }}>Error: {seasonsError}</p>}
+
+                    {!seasonsLoading && !seasonsError && seasons.length === 0 && (<p>No season data available.</p>)}
+
+                    {seasons.length > 0 && (
+                        <table cellPadding={6} style={{ marginTop: 8, borderCollapse: 'collapse' }}>
+                            <thead>
+                                <tr>
+                                    <th align="left">Season</th>
+                                    <th align="right">GP</th>
+                                    <th align="right">MPG</th>
+                                    <th align="right">PPG</th>
+                                    <th align="right">RPG</th>
+                                    <th align="right">APG</th>
+                                    <th align="right">SPG</th>
+                                    <th align="right">BPG</th>
+                                    <th align="right">TPG</th>
+                                    <th align="right">FG%</th>
+                                    <th align="right">3P%</th>
+                                    <th align="right">FT%</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {seasons
+                                    .slice()
+                                    .sort((a, b) => b.season - a.season)
+                                    .map((s) => (
+                                    <tr key={s.season}>
+                                        <td>{s.season}</td>
+                                        <td align="right">{s.gamesPlayed}</td>
+                                        <td align="right">{s.mpg.toFixed(2)}</td>
+                                        <td align="right">{s.ppg.toFixed(2)}</td>
+                                        <td align="right">{s.rpg.toFixed(2)}</td>
+                                        <td align="right">{s.apg.toFixed(2)}</td>
+                                        <td align="right">{s.spg.toFixed(2)}</td>
+                                        <td align="right">{s.bpg.toFixed(2)}</td>
+                                        <td align="right">{s.tpg.toFixed(2)}</td>
+                                        <td align="right">{(s.fgPct * 100).toFixed(1)}</td>
+                                        <td align="right">{(s.fg3Pct == null ? 0 : s.fg3Pct * 100).toFixed(1)}</td>
+                                        <td align="right">{(s.ftPct * 100).toFixed(1)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             )}
         </div>
