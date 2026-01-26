@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import PlayerPage from './pages/PlayerPage'
-
+import './App.css'
 
 type Player = {
   id: number
@@ -48,42 +48,55 @@ function App() {
       <Route 
         path="/"
         element={
-          <div style={{ padding: 16 }}>
-            <h1>NBAZone</h1>
-            <p>Welcome to NBAZone, your ultimate destination for all things NBA!</p> 
+          <div className='page'>
 
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 }}>
-              <button onClick={testBackend}>Test backend</button>  
-              {healthMsg && <span>Backend says: {healthMsg}</span>} 
+            <div className='container'>
+
+              <header className='hero'>
+                <h1 className='heroTitle'>NBAZone</h1>
+                <p className='heroSubtitle'>Your ultimate destination for all things NBA!</p>
+              </header>
+
+              <section className='searchSection'>
+                <h2>Search Players</h2>
+
+
+                <div className='searchBar'>
+                  
+                  <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Enter player name"
+                  />
+                  <button onClick={searchPlayers} disabled={loading}>
+                    {loading ? 'Searching...' : 'Search'}
+                  </button>
+
+                </div>
+
+                {error && <p className='errorBox'>Error: {error}</p>}
+
+                {players.length > 0 && (
+                  <ul className='resultsList'>
+                    {players.map((p) => (
+                      <li key={p.id}>
+                        <Link to={`/players/${p.id}`}>
+                          {p.firstName} {p.lastName}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+
+              <footer className='devTools'>
+                <button onClick={testBackend}>Test Backend Health</button>
+                {healthMsg && <p>Backend Health: {healthMsg}</p>}
+              </footer>
+              
             </div>
-
-            <h2>Players</h2>
-
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search NBA Players"
-              />
-              <button onClick={searchPlayers} disabled={loading}>
-                {loading ? 'Searching...' : 'Search'}
-              </button>
-            </div>
-
-            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-
-            <ul style={{ marginTop: 12 }}>
-              {players.map((p) => (
-                <li key={p.id}>
-                  <Link to={`/players/${p.id}`}>
-                    {p.firstName} {p.lastName}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            
           </div>
-        }
+        }      
       />
       <Route path="/players/:id" element={<PlayerPage />} />
     </Routes>
