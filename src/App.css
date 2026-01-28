@@ -95,10 +95,39 @@
   cursor: pointer;
 }
 
-.resultsList {
-  list-style: none;
-  padding: 0;
+.resultsMeta {
   margin-top: 12px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.resultsList {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.resultRow {
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #f5f5f5;
+  background: #242424;
+  transition: background 0.15s ease;
+}
+
+.resultRow:not(:last-child) {
+  border-bottom: 1px solid #333;
+}
+
+.resultRow:hover {
+  background: #2f2f2f;
+}
+
+.resultName {
+  font-size: 1.1rem;
 }
 
 .resultsList li {

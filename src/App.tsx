@@ -77,15 +77,22 @@ function App() {
                 {error && <p className='errorBox'>Error: {error}</p>}
 
                 {players.length > 0 && (
-                  <ul className='resultsList'>
-                    {players.map((p) => (
-                      <li key={p.id}>
-                        <Link to={`/players/${p.id}`}>
-                          {p.firstName} {p.lastName}
+                  <><div className='resultsMeta'>
+                    Showing {players.length} result{players.length !== 1 ? 's' : ''}
+                  </div><div className='resultsList'>
+                      {players.map((player) => (
+                        <Link
+                          key={player.id}
+                          to={`/players/${player.id}`}
+                          className='resultRow'
+                        >
+                          <span className='resultName'>
+                            {player.firstName} {player.lastName}
+                          </span>
+
                         </Link>
-                      </li>
-                    ))}
-                  </ul>
+                      ))}
+                    </div></>
                 )}
               </section>
 
