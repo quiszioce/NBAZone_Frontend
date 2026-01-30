@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import PlayerPage from './pages/PlayerPage'
 import './App.css'
+import ComparePage from './pages/ComparePage'
 
 type Player = {
   id: number
@@ -83,6 +84,8 @@ function App() {
                     {loading ? 'Searching...' : 'Search'}
                   </button>
 
+                  <Link to="/compare">Compare Players</Link>
+
                 </div>
 
                 
@@ -124,6 +127,7 @@ function App() {
         }      
       />
       <Route path="/players/:id" element={<PlayerPage />} />
+      <Route path="/compare" element={<ComparePage />} />
     </Routes>
     
   )
