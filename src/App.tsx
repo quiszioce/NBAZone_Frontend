@@ -18,6 +18,8 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
 
+  const [hasSearched, setHasSearched] = useState<boolean>(false)
+
   async function testBackend() {
     setHealthMsg('')
     const res = await fetch('/api/health/db')
@@ -26,6 +28,7 @@ function App() {
   }
 
   async function searchPlayers() {
+    setHasSearched(true)
     setLoading(true)
     setError('')
     try {
@@ -65,16 +68,31 @@ function App() {
                   
                   <input
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => {
+                      setSearch(e.target.value)
+                      setHasSearched(false)
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && search.trim() && !loading) {
+                        searchPlayers()
+                      }
+                    }}
                     placeholder="Enter player name"
                   />
-                  <button onClick={searchPlayers} disabled={loading}>
+                  <button onClick={searchPlayers} disabled={loading || !search.trim()}>
                     {loading ? 'Searching...' : 'Search'}
                   </button>
 
                 </div>
 
+                
+
+
                 {error && <p className='errorBox'>Error: {error}</p>}
+
+                {!loading && players.length === 0 && hasSearched && (
+                  <p className="muted">No players found.</p>
+                )}
 
                 {players.length > 0 && (
                   <><div className='resultsMeta'>
