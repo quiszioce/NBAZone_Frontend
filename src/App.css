@@ -2,7 +2,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  text-align: left;
 }
 
 .logo {
@@ -55,6 +55,7 @@
 
 .hero {
   margin-bottom: 40px;
+  text-align: center;
 }
 
 .heroTitle {
@@ -165,6 +166,79 @@
   margin-top: 16px;
 }
 
+.playerHeader {
+  display: grid;
+  grid-template-columns: 1.1fr 1.6fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.playerName {
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 6px;
+}
+
+.playerSub {
+  color: #b0b0b0;
+  font-size: 0.95rem;
+}
+
+.kvGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 14px;
+}
+
+.kvItem .label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: #a8a8a8;
+  margin-bottom: 4px;
+}
+
+.kvItem .value {
+  display: block;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #f5f5f5;
+}
+
+@media (max-width: 800px) {
+  .playerHeader {
+    grid-template-columns: 1fr;
+  }
+  .kvGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #7aa2ff;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.errorText {
+  color: #ff6b6b;
+  margin-top: 12px;
+}
+
+.panel {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 18px;
+}
+
 .devTools {
   margin-top: 48px;
   display: flex;
@@ -247,6 +321,13 @@
   align-items: baseline;
   gap: 10px;
   margin-bottom: 8px;
+  justify-content: space-between;
+}
+
+.chartHeaderLeft {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
 
 .chartTitle {
@@ -262,3 +343,30 @@
 .chartBody {
   width: 100%;
 }
+
+.statToggle {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.statBtn {
+  background: transparent;
+  border: 1px solid #333;
+  color: #aaa;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.statBtn:hover {
+  color: #fff;
+  border-color: #444;
+}
+
+.statBtnActive {
+  color: #fff;
+  border-color: #7aa2ff;
+  box-shadow: inset 0 0 0 1px #7aa2ff;
+}
+

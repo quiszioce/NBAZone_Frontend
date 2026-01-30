@@ -11,35 +11,74 @@ type Player = {
     position: string
     draftYear: number | null
     draftRound: number | null
-    draftNumber: number | null   
+    draftNumber: number | null
 }
 
 function formatHeight(inches: number | null | undefined) {
-  if (inches == null) return 'N/A'
+    if (inches == null) return 'N/A'
+    const feet = Math.floor(inches / 12)
+    const remainder = inches % 12
+    return `${feet}′ ${remainder}″`
+}
 
-  const feet = Math.floor(inches / 12)
-  const remainder = inches % 12
+function formatWeight(lbs: number | null | undefined) {
+    if (lbs == null) return 'N/A'
+    return `${lbs} lbs`
+}
 
-  return `${feet}′ ${remainder}″`
+function formatDraft(p: Player) {
+    if (p.draftYear == null) return 'N/A'
+    // round/number might be null in some datasets, so guard them:
+    const round = p.draftRound ?? '—'
+    const pick = p.draftNumber ?? '—'
+    return `Drafted ${p.draftYear} • Round ${round} • Pick ${pick}`
 }
 
 export default function PlayerBio({ player }: { player: Player }) {
     return (
-        <div>
-            <h3>{player.firstName} {player.lastName}</h3>
-            <p><strong>Position:</strong> {player.position}</p>
-            <p><strong>Height:</strong> {formatHeight(player.heightIn)}</p>
-            <p><strong>Weight:</strong> {player.bodyweightLbs}</p>
-            <p><strong>Birth Date:</strong> {player.birthDate}</p>
-            <p><strong>Country:</strong> {player.country}</p>
-            <p><strong>College:</strong> {player.lastAttend}</p>
+        <section className="panel">
+            <div className="playerHeader">
+                {/* Left side: title */}
+                <div>
+                    <h1 className="playerName">
+                        {player.firstName} {player.lastName}
+                    </h1>
+                    <div className="playerSub">{player.position || 'N/A'}</div>
+                </div>
 
-            <h4>Draft Info:</h4>
-            <p>
-                {player.draftYear != null
-                    ? `Drafted in ${player.draftYear}, Round ${player.draftRound}, Pick ${player.draftNumber}`
-                    : 'N/A'}
-            </p>
-        </div>
+                {/* Right side: details grid */}
+                <div className="kvGrid">
+                    <div className="kvItem">
+                        <span className="label">Height</span>
+                        <span className="value">{formatHeight(player.heightIn)}</span>
+                    </div>
+
+                    <div className="kvItem">
+                        <span className="label">Weight</span>
+                        <span className="value">{formatWeight(player.bodyweightLbs)}</span>
+                    </div>
+
+                    <div className="kvItem">
+                        <span className="label">Birth date</span>
+                        <span className="value">{player.birthDate || 'N/A'}</span>
+                    </div>
+
+                    <div className="kvItem">
+                        <span className="label">Country</span>
+                        <span className="value">{player.country || 'N/A'}</span>
+                    </div>
+
+                    <div className="kvItem">
+                        <span className="label">College</span>
+                        <span className="value">{player.lastAttend || 'N/A'}</span>
+                    </div>
+
+                    <div className="kvItem">
+                        <span className="label">Draft</span>
+                        <span className="value">{formatDraft(player)}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
     )
 }

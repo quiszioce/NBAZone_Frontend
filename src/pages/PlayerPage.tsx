@@ -74,31 +74,31 @@ function PlayerPage() {
     }, [id])   
 
     return (
-        <div style={{ padding: 16 }}>
-            <Link to="/">← Back to search</Link>
+        <div className="page">
+            <div className="container">
+            <Link className="backLink" to="/">
+                ← Back to search
+            </Link>
 
-            <h2>Player</h2>
-
-            {loading && <p>Loading...</p>}
-            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+            {loading && <p className="muted">Loading...</p>}
+            {error && <p className="errorText">Error: {error}</p>}
 
             {player && <PlayerBio player={player} />}
 
-            <h3>Season Stats</h3>
-            {seasonsLoading && <p>Loading seasons...</p>}
-            {seasonsError && <p style={{ color: 'red' }}>Error: {seasonsError}</p>}
+            <h2 className="sectionTitle">Season Stats</h2>
+
+            {seasonsLoading && <p className="muted">Loading seasons...</p>}
+            {seasonsError && <p className="errorText">Error: {seasonsError}</p>}
 
             {!seasonsLoading && !seasonsError && (
                 <>
-                    <SeasonChart seasons={seasons} />
-                   
-                    <SeasonTable seasons={seasons} />
-                    
+                <SeasonChart seasons={seasons} />
+                <SeasonTable seasons={seasons} />
                 </>
             )}
-
-        
+            </div>
         </div>
     )
+
 }
 export default PlayerPage
