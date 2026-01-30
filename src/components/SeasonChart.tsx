@@ -46,6 +46,7 @@ export default function SeasonChart({ seasons }: Props) {
                             stroke='#aaa'
                             tick={{ fill: '#aaa', fontSize: 12 }}
                             domain={['dataMin - 2', 'dataMax + 2']}
+                            tickFormatter={(v) => String(Math.round(v))}
                         />
                         <Tooltip
                             contentStyle={{
