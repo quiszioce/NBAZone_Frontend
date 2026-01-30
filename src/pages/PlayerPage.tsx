@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import PlayerBio from '../components/PlayerBio'
 import SeasonTable, { type SeasonSummary } from '../components/SeasonTable'
+import SeasonChart from '../components/SeasonChart'
 
 type Player = {
     id: number
@@ -86,7 +87,17 @@ function PlayerPage() {
             <h3>Season Stats</h3>
             {seasonsLoading && <p>Loading seasons...</p>}
             {seasonsError && <p style={{ color: 'red' }}>Error: {seasonsError}</p>}
-            {!seasonsLoading && !seasonsError && <SeasonTable seasons={seasons} />}
+
+            {!seasonsLoading && !seasonsError && (
+                <>
+                    <SeasonChart seasons={seasons} />
+                   
+                    <SeasonTable seasons={seasons} />
+                    
+                </>
+            )}
+
+        
         </div>
     )
 }

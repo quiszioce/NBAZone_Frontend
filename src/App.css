@@ -178,3 +178,87 @@
   color: #aaa;
   margin-top: 8px;
 }
+
+.tableWrapper {
+  overflow-x: auto;
+  margin-top: 12px;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.seasonTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.seasonTable th,
+.seasonTable td {
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+
+.seasonTable thead th {
+  background: #1e1e1e;
+  border-bottom: 1px solid #444;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  font-weight: 600;
+}
+
+.seasonTable tbody tr:hover {
+  background: #2a2a2a;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.pct {
+  color: #cfcfcf;
+}
+
+.seasonTable tbody tr:nth-child(even):not(.careerRow) {
+  background: #232323;
+}
+
+.careerRow {
+  font-weight: 600;
+  border-top: 2px solid #555;
+  background: #252525;
+}
+
+.careerRow td {
+  padding-top: 10px;
+}
+
+.chartCard {
+  margin-top: 12px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #1e1e1e;
+  padding: 12px;
+}
+
+.chartHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.chartTitle {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.chartSubtitle {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.chartBody {
+  width: 100%;
+}
