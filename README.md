@@ -21,7 +21,7 @@ JavaScript
 Backend API:
 
 This frontend connects to:
-https://github.com/yourusername/nbazone-backend
+https://github.com/quiszioce/NBAZone_Backend
 
 
 Running the Project:
@@ -32,7 +32,7 @@ npm
 
 Steps:
 Clone the repo
-git clone https://github.com/quiszioce/nbazone-frontend.git
+git clone https://github.com/quiszioce/NBAZone_Frontend.git
 
 Navigate into folder
 cd nbazone-frontend
